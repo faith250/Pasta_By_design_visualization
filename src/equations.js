@@ -152,3 +152,77 @@ export function computeColonnePompeii() {
   }
   return new Float32Array(pts)
 }
+
+export function computeCasarecce() {
+  const pts = []
+  for (let i = 0; i <= 60; i++) {
+    for (let j = 0; j <= 60; j++) {
+      let x, y
+      if (i <= 30) {
+        x = 0.5 * Math.cos(j * Math.PI / 30) + 0.5 * Math.cos((2*i + j + 16) * Math.PI / 40)
+        y = 0.5 * Math.sin(j * Math.PI / 30) + 0.5 * Math.sin((2*i + j + 16) * Math.PI / 40)
+      } else {
+        x = Math.cos(j * Math.PI / 40) + 0.5 * Math.cos(j * Math.PI / 30) + 0.5 * Math.sin((2*i - j) * Math.PI / 40)
+        y = Math.sin(j * Math.PI / 40) + 0.5 * Math.sin(j * Math.PI / 30) + 0.5 * Math.cos((2*i - j) * Math.PI / 40)
+      }
+      const z = j / 4
+      pts.push(x, y, z)
+    }
+  }
+  return new Float32Array(pts)
+}
+
+export function computeCapellini() {
+  const pts = []
+  for (let i = 0; i <= 15; i++) {
+    for (let j = 0; j <= 100; j++) {
+      const x = 0.05 * Math.cos(2 * i * Math.PI / 15) + 0.6 * Math.cos(j * Math.PI / 100)
+      const y = 0.05 * Math.sin(2 * i * Math.PI / 15) + 0.5 * Math.sin(j * Math.PI / 100)
+      const z = 7 * j / 100
+      pts.push(x, y, z)
+    }
+  }
+  return new Float32Array(pts)
+}
+
+export function computeCappelletti() {
+  const pts = []
+  for (let i = 0; i <= 40; i++) {
+    for (let j = 0; j <= 120; j++) {
+      const r = 0.1 + Math.sin(3 * i * Math.PI / 160)
+      const x = r * Math.cos(2.3 * j * Math.PI / 120)
+      const y = r * Math.sin(2.3 * j * Math.PI / 120)
+      const z = 0.1 - j / 400 + (0.3 - 0.231 * i / 40) * Math.cos(i * Math.PI / 20)
+      pts.push(x, y, z)
+    }
+  }
+  return new Float32Array(pts)
+}
+
+export function computeCannelloni() {
+  const pts = []
+  for (let i = 0; i <= 110; i++) {
+    for (let j = 0; j <= 50; j++) {
+      const x = (1 + j / 100) * Math.cos(i * Math.PI / 55)
+              + 0.5 * Math.cos(j * Math.PI / 100)
+              + 0.1 * Math.cos(i * Math.PI / 55 + j * Math.PI / 125)
+      const y = 1.3 * Math.sin(i * Math.PI / 55) + 0.3 * Math.sin(j * Math.PI / 100)
+      const z = 7 * j / 50
+      pts.push(x, y, z)
+    }
+  }
+  return new Float32Array(pts)
+}
+
+export function computeCannolicchiRigati() {
+  const pts = []
+  for (let i = 0; i <= 140; i++) {
+    for (let j = 0; j <= 50; j++) {
+      const x = 8 * Math.cos(i * Math.PI / 70) + 0.2 * Math.cos(2 * i * Math.PI / 7) + 5 * Math.cos(j * Math.PI / 100)
+      const y = 8 * Math.sin(i * Math.PI / 70) + 0.2 * Math.sin(2 * i * Math.PI / 7) + 4 * Math.sin(j * Math.PI / 100)
+      const z = 6 * j / 5
+      pts.push(x, y, z)
+    }
+  }
+  return new Float32Array(pts)
+}
