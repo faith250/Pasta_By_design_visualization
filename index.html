@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pasta By Design — Parametric Visualization</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Three.js import map -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+
+  <!-- ── Main layout ──────────────────────────────────── -->
+  <div class="layout">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar">
+
+      <!-- Book header -->
+      <div class="book-header">
+        <span class="book-author">George L. Legendre</span>
+        <span class="book-title">Pasta by Design</span>
+      </div>
+
+      <!-- Pasta name + page -->
+      <div class="pasta-header">
+        <h1 class="pasta-name" id="pasta-name">ANELLINI</h1>
+        <span class="pasta-page" id="pasta-page">p.018</span>
+      </div>
+
+      <!-- Description -->
+      <p class="pasta-desc" id="pasta-desc"></p>
+
+      <!-- Profile type -->
+      <div class="pasta-profile" id="pasta-profile"></div>
+
+      <!-- Properties checkmarks -->
+      <div class="pasta-props" id="pasta-props"></div>
+
+      <!-- Equations block -->
+      <div class="eq-block">
+        <div class="eq-header">PARAMETRIC EQUATIONS</div>
+        <div class="eq-ranges" id="pasta-ranges"></div>
+        <div class="eq-lines" id="pasta-eqs"></div>
+        <div class="eq-note">x = Π &nbsp; y = K &nbsp; z = Θ</div>
+      </div>
+
+      <!-- Specs block -->
+      <div class="specs-block">
+        <div class="specs-header">SPECIFICATIONS</div>
+        <div class="specs-rows" id="pasta-specs"></div>
+      </div>
+
+    </aside>
+
+    <!-- RIGHT: THREE.JS VIEWPORT -->
+    <main class="viewport">
+      <canvas id="three-canvas"></canvas>
+      <!-- Fade overlay for transitions -->
+      <div id="fade-overlay" class="fade-overlay"></div>
+    </main>
+
+  </div>
+
+  <!-- BOTTOM NAVIGATION BAR -->
+  <nav class="bottom-bar">
+    <button class="nav-btn" id="btn-prev" aria-label="Previous pasta">&#8592; PREV</button>
+
+    <div class="thumb-strip" id="thumb-strip">
+      <!-- Thumbnails injected by app.js -->
+    </div>
+
+    <button class="nav-btn" id="btn-next" aria-label="Next pasta">NEXT &#8594;</button>
+  </nav>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
