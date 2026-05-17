@@ -1,0 +1,101 @@
+/* ── NAV ── */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: #f2f1ef;
+  border-bottom: 1px solid #ddd;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 48px;
+}
+.nav-brand { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; font-weight: 600; color: #1a1a1a; }
+.nav-links { display: flex; gap: 28px; }
+.nav-links a { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; color: #888; transition: color 0.2s; }
+.nav-links a:hover { color: #c1121f; }
+
+/* ── HERO ── */
+.hero { padding: 80px 48px 64px; max-width: 960px; margin: 0 auto; }
+.hero-tag { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #999; margin-bottom: 18px; }
+.hero h1 { font-size: 48px; font-weight: 700; line-height: 1.05; color: #1a1a1a; margin-bottom: 20px; }
+.hero h1 em { color: #c1121f; font-style: italic; }
+.hero-sub { font-size: 15px; color: #555; max-width: 540px; line-height: 1.7; margin-bottom: 12px; }
+.hero-credit { font-size: 11px; letter-spacing: 1px; color: #aaa; }
+
+/* ── SECTION ── */
+.pasta-section { border-top: 1px solid #ddd; padding: 64px 48px; }
+.section-inner { max-width: 960px; margin: 0 auto; }
+
+/* ── PASTA HEADER ── */
+.pasta-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 32px; margin-bottom: 36px; }
+.pasta-left { flex: 1; }
+.pasta-page { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #bbb; margin-bottom: 8px; }
+.pasta-name { font-size: 24px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #c1121f; margin-bottom: 14px; }
+.pasta-desc { font-size: 13px; color: #555; line-height: 1.75; max-width: 460px; }
+.pasta-desc em { font-style: italic; }
+
+/* ── PROPERTIES ── */
+.props { list-style: none; text-align: right; flex-shrink: 0; }
+.props li { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; line-height: 2.2; color: #888; }
+.prop-primary { color: #1a1a1a; font-weight: 600; }
+.prop-arrow { color: #c1121f; }
+.prop-check { color: #aaa; }
+
+/* ── EQUATION PANEL ── */
+.eq-panel {
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 28px 32px;
+  margin-bottom: 28px;
+  display: flex;
+  flex-direction: column;
+}
+.eq-section-label {
+  font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+  color: #aaa; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  margin-bottom: 8px;
+}
+.eq-pre {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 12.5px;
+  line-height: 2;
+  color: #1a1a1a;
+  white-space: pre;
+  overflow-x: auto;
+}
+
+/* ── CANVAS HINT ── */
+.canvas-hint {
+  font-size: 11px; letter-spacing: 1px; color: #aaa;
+  text-align: center; margin-top: 10px; margin-bottom: 24px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+/* ── DIMENSIONS ── */
+.dims {
+  display: flex; gap: 36px;
+  border-top: 1px solid #ddd;
+  padding-top: 18px;
+  flex-wrap: wrap;
+}
+.dim-item { font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: #888; white-space: nowrap; }
+.dim-item strong { color: #1a1a1a; font-weight: 600; }
+
+/* ── FOOTER ── */
+.footer {
+  border-top: 1px solid #ddd;
+  padding: 36px 48px;
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #aaa;
+}
+.footer em { font-style: italic; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 680px) {
+  .pasta-top { flex-direction: column; }
+  .props { text-align: left; }
+  .hero h1 { font-size: 32px; }
+  .nav { padding: 12px 20px; }
+  .pasta-section { padding: 40px 20px; }
+  .hero { padding: 48px 20px 40px; }
+}
