@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { computeTrottole, computeTubettiRigati } from './equations'
+import { computeTrottole, computeTubettiRigati, computeChifferiRigati, computeCavatappi, computeCavatelli, computeCastellane, computeColonnePompeii } from './equations'
 import PastaViz from './components/PastaViz'
 import './App.css'
 
@@ -10,6 +10,11 @@ function NavBar() {
       <div className="nav-links">
         <a href="#trottole">Trottole</a>
         <a href="#tubetti-rigati">Tubetti Rigati</a>
+        <a href="#chifferi-rigati">Chifferi Rigati</a>
+        <a href="#cavatappi">Cavatappi</a>
+        <a href="#cavatelli">Cavatelli</a>
+        <a href="#castellane">Castellane</a>
+        <a href="#colonne-pompeii">Colonne Pompeii</a>
       </div>
     </nav>
   )
@@ -50,7 +55,7 @@ function EqPanel({ ranges, equations }) {
   )
 }
 
-function PastaSection({ id, page, name, description, primary, propItems, ranges, equations, vizPositions, cameraPos, target, pointSize, dims }) {
+function PastaSection({ id, page, name, description, primary, propItems, ranges, equations, vizPositions, cameraPos, target, pointSize, dims, coordsLabel }) {
   return (
     <section id={id} className="pasta-section">
       <div className="section-inner">
@@ -69,7 +74,7 @@ function PastaSection({ id, page, name, description, primary, propItems, ranges,
           target={target}
           pointSize={pointSize}
         />
-        <p className="canvas-hint">drag to rotate · scroll to zoom · (Π, Θ, K)</p>
+        <p className="canvas-hint">drag to rotate · scroll to zoom · {coordsLabel || '(Π, Θ, K)'}</p>
         <div className="dims">
           {dims.map(d => (
             <span key={d.label} className="dim-item">
@@ -83,8 +88,13 @@ function PastaSection({ id, page, name, description, primary, propItems, ranges,
 }
 
 export default function App() {
-  const trottolePos = useMemo(() => computeTrottole(), [])
-  const tubettiPos  = useMemo(() => computeTubettiRigati(), [])
+  const trottolePos       = useMemo(() => computeTrottole(), [])
+  const tubettiPos        = useMemo(() => computeTubettiRigati(), [])
+  const chifferiPos       = useMemo(() => computeChifferiRigati(), [])
+  const cavatappiPos      = useMemo(() => computeCavatappi(), [])
+  const cavatelliPos      = useMemo(() => computeCavatelli(), [])
+  const castellanePos     = useMemo(() => computeCastellane(), [])
+  const colonnePompeiiPos = useMemo(() => computeColonnePompeii(), [])
 
   return (
     <>
@@ -146,6 +156,157 @@ K(i,j)  :=  j / 3`}
           { label: 'Length', value: '11 mm' },
           { label: 'Diameter', value: '5 mm' },
           { label: 'Cooking Time', value: '11 min' }
+        ]}
+      />
+
+      <PastaSection
+        id="chifferi-rigati"
+        page="p. 041"
+        name="Chifferi Rigati"
+        description="Available in both rigati (grooved) and lisci (smooth) forms. Typically cooked in broth or served in ragù alla bolognese. Bears resemblance to the Austrian 'kipfel' sweet."
+        primary="Bent Longitudinal Profile"
+        propItems={['Hollow Cross-Section', 'Striated Surface', 'Smooth Edges']}
+        ranges={`i  :=  0, 1 … 200\nj  :=  0, 1 … 45`}
+        equations={
+`Π(i,j)  :=  (0.45 + 0.3·cos(i·π/100) + 0.005·cos(2i·π/5))·cos(j·π/45)
+             + 0.15·(j/45)¹⁰·cos(i·π/100)³
+
+Θ(i,j)  :=  (0.35 + j/300)·sin(i·π/100) + 0.005·sin(2i·π/5)
+
+K(i,j)  :=  (0.4 + 0.3·cos(i·π/100))·sin(j·π/45)`}
+        vizPositions={chifferiPos}
+        cameraPos={[2, 1.5, 1.5]}
+        target={[0.3, 0.1, 0.3]}
+        pointSize={0.004}
+        dims={[
+          { label: 'Length', value: '17 mm' },
+          { label: 'Width', value: '10 mm' },
+          { label: 'Diameter', value: '7 mm' },
+          { label: 'Cooking Time', value: '7 min' }
+        ]}
+      />
+
+      <PastaSection
+        id="cavatappi"
+        page="p. 019"
+        name="Cavatappi"
+        description="Perfect with chunky sauces made from lamb or pork, cavatappi (corkscrews) are 36mm-long hollow helicoidal tubes. Also used in oven-baked cheese-topped dishes or in salads with pesto."
+        primary="Helicoidal Longitudinal Profile"
+        propItems={['Hollow Cross-Section', 'Striated Surface', 'Smooth Edges']}
+        ranges={`i  :=  0, 1 … 70\nj  :=  0, 1 … 150`}
+        equations={
+`Π(i,j)  :=  (3 + 2·cos(i·π/35) + 0.1·cos(2i·π/7))·cos(j·π/30)
+
+Θ(i,j)  :=  (3 + 2·cos(i·π/35) + 0.1·cos(2i·π/7))·sin(j·π/30)
+
+K(i,j)  :=  3 + 2·sin(i·π/35) + 0.1·sin(2i·π/7) + j/6`}
+        vizPositions={cavatappiPos}
+        cameraPos={[20, 20, 14]}
+        target={[0, 0, 14]}
+        pointSize={0.1}
+        dims={[
+          { label: 'Length', value: '36 mm' },
+          { label: 'Width', value: '13 mm' },
+          { label: 'Diameter', value: '6 mm' },
+          { label: 'Cooking Time', value: '11 min' }
+        ]}
+      />
+
+      <PastaSection
+        id="cavatelli"
+        page="p. 040"
+        name="Cavatelli"
+        description="Popular in the south of Italy. Can be served alla puttanesca (with chilli, garlic, capers and anchovies) or added to a salad with olive oil, sautéed crushed garlic and soft cheese."
+        primary="Straight Longitudinal Profile"
+        propItems={['Semi-Open Cross-Section', 'Smooth Surface', 'Smooth Edges']}
+        ranges={`i  :=  0, 1 … 200\nj  :=  0, 1 … 30`}
+        equations={
+`α(i)    :=  0.5·cos(i·π/100)
+β(i,j)  :=  (j/60)·sin(i·π/100)
+
+Π(i,j)  :=  3·(1 - sin(α·2π))·cos(α·π + 0.9·π)
+
+Θ(i,j)  :=  3·sin(α·2π)·sin(α·π + 0.63·π)
+
+K(i,j)  :=  4·β·(5 - sin(α·π))`}
+        vizPositions={cavatelliPos}
+        cameraPos={[20, 15, 0]}
+        target={[0, 0, 0]}
+        pointSize={0.05}
+        dims={[
+          { label: 'Length', value: '28 mm' },
+          { label: 'Width', value: '12 mm' },
+          { label: 'Thickness', value: '2 mm' },
+          { label: 'Cooking Time', value: '14–16 min' }
+        ]}
+      />
+
+      <PastaSection
+        id="castellane"
+        page="p. 036"
+        name="Castellane"
+        description="Created by Barilla. Originally called paguri (hermit crabs), renamed castellane (castle dwellers). The sturdy form and rich nutty taste stand up to hearty meats and full-flavoured sauces."
+        primary="Pinched Longitudinal Profile"
+        propItems={['Semi-Open Cross-Section', 'Striated Surface', 'Smooth Edges']}
+        ranges={`i  :=  0, 1 … 60\nj  :=  0, 1 … 120`}
+        equations={
+`Π(i,j)  :=  [0.3·sin(j·π/120)·|cos((j+3)·π/6)| + i²/720·(sin(2j·π/300)² + 0.1) + 0.3]·cos(7i·π/150)
+
+Θ(i,j)  :=  [0.3·sin(j·π/120)·cos((j+3)·π/6)   + i²/720·(sin(2j·π/300)² + 0.1) + 0.3]·sin(7i·π/150)
+
+K(i,j)  :=  12·cos(j·π/120)`}
+        vizPositions={castellanePos}
+        cameraPos={[15, 12, 0]}
+        target={[0, 0, 0]}
+        pointSize={0.05}
+        dims={[
+          { label: 'Length', value: '35 mm' },
+          { label: 'Width', value: '13 mm' },
+          { label: 'Cooking Time', value: '9 min' }
+        ]}
+      />
+
+      <PastaSection
+        id="colonne-pompeii"
+        page="p. 044"
+        name="Colonne Pompeii"
+        description="Ornate pasta originally from Campania, similar to fusilloni but substantially longer. Best served with fresh basil, pine nuts, finely sliced garlic and olive oil, topped with freshly grated Parmigiano-Reggiano."
+        primary="Twisted Longitudinal Profile"
+        propItems={['Solid Cross-Section', 'Smooth Surface', 'Smooth Edges']}
+        ranges={`i  :=  0, 1 … 10\nj  :=  0, 1 … 250`}
+        equations={
+`Π(i,j)  :=  j ≤ 50  :  2·cos(i·π/20)
+              else    :  2·cos(i·π/20)·cos(-j·π/25)
+
+Θ(i,j)  :=  j ≤ 50  :  0
+              else    :  2·cos(i·π/20)·sin(j·π/25) + 3·sin((j-50)·π/200)
+
+K(i,j)  :=  j ≤ 50  :  sin(i·π/20) + 12
+              else    :  sin(i·π/20) + 6·j/25
+
+T(i,j)  :=  j ≤ 200 :  2·cos(i·π/20)·cos(-j·π/25 + 2π/3)
+              else    :  2·cos(i·π/20)·cos(-28π/3)
+
+X(i,j)  :=  j ≤ 200 :  2·cos(i·π/20)·sin(-j·π/25 + 2π/3) + 3·sin(j·π/200)
+              else    :  2·cos(i·π/20)·sin(-28π/3)
+
+Ψ(i,j)  :=  j ≤ 200 :  12 + sin(i·π/20) + 6·j/25
+              else    :  sin(i·π/20) + 60
+
+N(i,j)  :=  j ≤ 200 :  2·cos(i·π/20)·cos(-j·π/25 + 4π/3)
+              else    :  2·cos(i·π/20)·cos(-28π/3)
+
+Ξ(i,j)  :=  j ≤ 200 :  2·cos(i·π/20)·sin(-j·π/25 + 4π/3) + 3·sin(j·π/200)
+              else    :  2·cos(i·π/20)·sin(-28π/3)`}
+        vizPositions={colonnePompeiiPos}
+        cameraPos={[60, 50, 60]}
+        target={[0, 0, 36]}
+        pointSize={0.3}
+        coordsLabel="(Π, Θ, K) · (T, X, Ψ) · (N, Ξ, Ψ)"
+        dims={[
+          { label: 'Length', value: '300 mm' },
+          { label: 'Width', value: '20 mm' },
+          { label: 'Cooking Time', value: '9 min' }
         ]}
       />
 
