@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pasta By Design — Visualization</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="hero-bg">
+      <div class="noodle n1"></div>
+      <div class="noodle n2"></div>
+      <div class="noodle n3"></div>
+    </div>
+    <div class="hero-content">
+      <p class="eyebrow">Interactive Data Visualization</p>
+      <h1>Pasta<br /><span>By Design</span></h1>
+      <p class="subtitle">Explore the universe of pasta — shapes, cook times, textures, and perfect sauce pairings, all in one visual journey.</p>
+      <a href="#explore" class="btn-primary">Start Exploring</a>
+    </div>
+    <div class="scroll-hint">↓</div>
+  </header>
+
+  <!-- Stats Bar -->
+  <section class="stats-bar">
+    <div class="stat"><span class="stat-num" data-target="350">0</span><span class="stat-label">Pasta Shapes Worldwide</span></div>
+    <div class="stat"><span class="stat-num" data-target="8">0</span><span class="stat-label">Main Categories</span></div>
+    <div class="stat"><span class="stat-num" data-target="2000">0</span><span class="stat-label">Years of History</span></div>
+    <div class="stat"><span class="stat-num" data-target="14">0</span><span class="stat-label">Million Tons / Year</span></div>
+  </section>
+
+  <!-- Pasta Browser -->
+  <section class="section" id="explore">
+    <div class="container">
+      <h2 class="section-title">Shape Explorer</h2>
+      <p class="section-sub">Filter by category and click any shape to learn more.</p>
+
+      <div class="filter-bar">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="long">Long</button>
+        <button class="filter-btn" data-filter="short">Short</button>
+        <button class="filter-btn" data-filter="stuffed">Stuffed</button>
+        <button class="filter-btn" data-filter="sheet">Sheet</button>
+        <button class="filter-btn" data-filter="soup">Soup</button>
+      </div>
+
+      <div class="pasta-grid" id="pastaGrid"></div>
+    </div>
+  </section>
+
+  <!-- Cook Time Chart -->
+  <section class="section dark-section">
+    <div class="container">
+      <h2 class="section-title light">Cook Time Comparison</h2>
+      <p class="section-sub light">Minutes to al-dente perfection for each pasta type.</p>
+      <div class="chart-wrap">
+        <div class="bar-chart" id="barChart"></div>
+        <div class="chart-legend">
+          <span class="legend-dot" style="background:#F5A623"></span> Dried
+          <span class="legend-dot" style="background:#7ED321; margin-left:1.5rem"></span> Fresh
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Texture & Shape Wheel -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Sauce Pairing Map</h2>
+      <p class="section-sub">Which sauce complements which shape? A quick visual guide.</p>
+      <div class="pairing-grid" id="pairingGrid"></div>
+    </div>
+  </section>
+
+  <!-- Radar / Properties -->
+  <section class="section dark-section">
+    <div class="container two-col">
+      <div class="col-text">
+        <h2 class="section-title light">Shape Properties</h2>
+        <p class="section-sub light">Every pasta shape has unique structural traits that affect how it eats. Surface area, hollow cores, ridges, and length all play a role in sauce retention and mouthfeel.</p>
+        <div class="property-list" id="propertyList"></div>
+      </div>
+      <div class="col-visual">
+        <canvas id="radarCanvas" width="360" height="360"></canvas>
+        <div class="radar-controls" id="radarControls"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Timeline -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">A Brief History</h2>
+      <div class="timeline" id="timeline"></div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>Pasta By Design &copy; 2025 &mdash; An interactive visualization experience</p>
+    <p class="footer-sub">Data sourced from culinary research &amp; food science literature</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
