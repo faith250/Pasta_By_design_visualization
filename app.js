@@ -78,7 +78,10 @@ function generateGeometry(pasta) {
   const scale = 2 / span;
 
   for (let i = 0; i < positions.length; i += 3) {
-    if (!isFinite(positions[i])) { positions[i] = 0; positions[i+1] = 0; positions[i+2] = 0; continue; }
+    if (!isFinite(positions[i])) {
+      positions[i] = 0; positions[i+1] = 0; positions[i+2] = 0;
+      continue;
+    }
     positions[i]   = (positions[i]   - cx) * scale;
     positions[i+1] = (positions[i+1] - cy) * scale;
     positions[i+2] = (positions[i+2] - cz) * scale;
@@ -108,12 +111,14 @@ function addPoints(index) {
 function updateSidebar(index) {
   const p = PASTA[index];
 
-  sidebarName.textContent  = p.name;
-  sidebarPage.textContent  = p.page;
-  sidebarDesc.textContent  = p.description;
-  sidebarProfile.textContent = `> ${p.profile}`;
+  sidebarName.textContent = p.name;
+  sidebarPage.textContent = p.page;
+  sidebarDesc.textContent = p.description;
 
-  // Properties
+  const profilePrefix = p.profileType === 'helicoidal' ? '> HELICOIDAL' : '> STRAIGHT';
+  sidebarProfile.textContent = `${profilePrefix} LONGITUDINAL PROFILE`;
+
+  // Properties — right-aligned checkmarks
   const propDefs = [
     { key: 'hollow',      label: 'HOLLOW CROSS-SECTION' },
     { key: 'striated',    label: 'STRIATED SURFACE' },
@@ -122,19 +127,24 @@ function updateSidebar(index) {
   ];
   sidebarProps.innerHTML = propDefs
     .filter(def => p.properties[def.key])
-    .map(def => `<div class="prop-item">✓ ${def.label}</div>`)
+    .map(def => `<div class="prop-item">&#10003; ${def.label}</div>`)
     .join('');
 
   // Equations
   sidebarEqs.innerHTML =
-    `<div class="eq-line">${p.eqPi}</div>` +
-    `<div class="eq-line">${p.eqTheta}</div>` +
-    `<div class="eq-line">${p.eqK}</div>`;
+    `<div class="eq-line">${escapeHtml(p.eqPi)}</div>` +
+    `<div class="eq-line">${escapeHtml(p.eqTheta)}</div>` +
+    `<div class="eq-line">${escapeHtml(p.eqK)}</div>`;
   sidebarRanges.textContent = p.eqRanges;
 
   // Specs
   const specEntries = Object.entries(p.specs)
-    .map(([k, v]) => `<div class="spec-row"><span class="spec-key">${k.toUpperCase()}</span><span class="spec-val">${v}</span></div>`)
+    .map(([k, v]) =>
+      `<div class="spec-row">` +
+        `<span class="spec-key">${k.toUpperCase()}</span>` +
+        `<span class="spec-val">${v}</span>` +
+      `</div>`
+    )
     .join('');
   sidebarSpecs.innerHTML = specEntries;
 
@@ -142,6 +152,19 @@ function updateSidebar(index) {
   document.querySelectorAll('.thumb-item').forEach((el, i) => {
     el.classList.toggle('active', i === index);
   });
+
+  // Scroll active thumb into view
+  const activThumb = thumbStrip.children[index];
+  if (activThumb) {
+    activThumb.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+  }
+}
+
+function escapeHtml(str) {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
 }
 
 // ── Navigation with fade ─────────────────────────────────
@@ -158,10 +181,14 @@ function navigateTo(index) {
     currentIndex = index;
     addPoints(currentIndex);
     updateSidebar(currentIndex);
-    // Reset camera gently
+
+    // Reset camera
     camera.position.set(1.5, 1.5, 2.5);
     controls.target.set(0, 0, 0);
     controls.update();
+
+    // Resume auto-rotate on shape switch
+    autoRotate = true;
 
     // Fade in
     overlay.classList.remove('visible');
@@ -173,7 +200,9 @@ function navigateTo(index) {
 PASTA.forEach((p, i) => {
   const el = document.createElement('div');
   el.className = 'thumb-item' + (i === 0 ? ' active' : '');
-  el.innerHTML = `<span class="thumb-name">${p.name}</span><span class="thumb-page">${p.page}</span>`;
+  el.innerHTML =
+    `<span class="thumb-name">${p.name}</span>` +
+    `<span class="thumb-page">${p.page}</span>`;
   el.addEventListener('click', () => navigateTo(i));
   thumbStrip.appendChild(el);
 });
@@ -193,27 +222,26 @@ window.addEventListener('keydown', (e) => {
 });
 
 // ── Auto-rotate idle logic ───────────────────────────────
-renderer.domElement.addEventListener('mousedown', () => {
+function pauseRotate() {
   autoRotate = false;
   clearTimeout(idleTimer);
-});
-renderer.domElement.addEventListener('mouseup', () => {
+}
+
+function scheduleRotateResume() {
   clearTimeout(idleTimer);
   idleTimer = setTimeout(() => { autoRotate = true; }, 2000);
-});
-renderer.domElement.addEventListener('touchstart', () => {
-  autoRotate = false;
-  clearTimeout(idleTimer);
-}, { passive: true });
-renderer.domElement.addEventListener('touchend', () => {
-  clearTimeout(idleTimer);
-  idleTimer = setTimeout(() => { autoRotate = true; }, 2000);
-}, { passive: true });
+}
+
+renderer.domElement.addEventListener('mousedown', pauseRotate);
+renderer.domElement.addEventListener('mouseup',   scheduleRotateResume);
+renderer.domElement.addEventListener('touchstart', pauseRotate, { passive: true });
+renderer.domElement.addEventListener('touchend',   scheduleRotateResume, { passive: true });
 
 // ── Resize handler ───────────────────────────────────────
 function onResize() {
   const w = canvas.clientWidth;
   const h = canvas.clientHeight;
+  if (w === 0 || h === 0) return;
   renderer.setSize(w, h, false);
   camera.aspect = w / h;
   camera.updateProjectionMatrix();
@@ -224,11 +252,8 @@ resizeObserver.observe(canvas);
 onResize();
 
 // ── Animation loop ───────────────────────────────────────
-const clock = new THREE.Clock();
-
 function animate() {
   requestAnimationFrame(animate);
-  const delta = clock.getDelta();
 
   if (autoRotate && points) {
     points.rotation.y += 0.003;
